@@ -1,5 +1,5 @@
-const { rm, mkdir } = require('fs/promises');
-const SimpleDb = require('../lib/simple-db');
+import { rm, mkdir } from 'fs/promises';
+import simpleDB from '../lib/simpleDB.js';
 
 describe('simple db', () => {
     const rootDir = './__tests__/store';
@@ -10,7 +10,7 @@ describe('simple db', () => {
     });
 
     it('saved object has id', async () => {
-        const db = new SimpleDb(rootDir);
+        const db = new simpleDB(rootDir);
 
         const felix = { name: 'felix', type: 'tuxedo' };
 
@@ -19,7 +19,7 @@ describe('simple db', () => {
     });
 
     it('save and get an object', async () => {
-        const db = new SimpleDb(rootDir);
+        const db = new simpleDB(rootDir);
 
         const felix = { name: 'felix', type: 'tuxedo' };
         await db.save(felix);
@@ -28,7 +28,7 @@ describe('simple db', () => {
     });
 
     it('returns null for non-existant id', async () => {
-        const db = new SimpleDb(rootDir);
+        const db = new simpleDB(rootDir);
 
         const got = await db.get('non-existant');
         expect(got).toBeNull();
@@ -41,7 +41,7 @@ describe('simple db', () => {
             { name: 'duchess', type: 'angora' },
         ];
 
-        const db = new SimpleDb(rootDir);
+        const db = new simpleDB(rootDir);
 
         await Promise.all(cats.map((cat) => db.save(cat)));
         const got = await db.getAll();
@@ -49,7 +49,7 @@ describe('simple db', () => {
     });
 
     it('deletes an object', async () => {
-        const db = new SimpleDb(rootDir);
+        const db = new simpleDB(rootDir);
 
         const felix = { name: 'felix', type: 'tuxedo' };
 
@@ -60,7 +60,7 @@ describe('simple db', () => {
     });
 
     it('updates an object', async () => {
-        const db = new SimpleDb(rootDir);
+        const db = new simpleDB(rootDir);
 
         const felix = { name: 'felix', type: 'tuxedo' };
         await db.save(felix);
